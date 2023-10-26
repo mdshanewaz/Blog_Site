@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title_block  %}Edit Profile{% endblock %}
+
+{% block body_block %}
+<h2>Edit Your Information</h2>
+
+<form action="" method="POST">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <button class="btn btn-success" type="submit">SAVE</button>
+    <a class="btn btn-warning" type="button" href="{% url 'Login_App:pass_change' %}">RESET PASSWORD</a>
+</form>
+
+{% endblock %}
