@@ -3,5 +3,11 @@
 {% block titele_block %} Home {% endblock %}
 
 {% block body_block %}
+
     <h1>This is Blog Home</h1>
+
+    {% for blog in blogs %}
+        <h2 class="display-3">{{ blog.blog_title }}</h2>
+    {% endfor %}
+
 {% endblock %}
