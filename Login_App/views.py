@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth import login, logout, authenticate
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from Login_App.forms import SignupForm, UserProfileChange
+from Login_App.forms import SignupForm, UserProfileChange, ProfilePic
 
 # Create your views here.
 
@@ -77,3 +77,32 @@ def pass_change(request):
             form.save()
             change = True
     return render(request, 'Login_App/pass_change.html', context={'form':form, 'change':change})
+
+@login_required
+def add_profile_pic (request):
+    form = ProfilePic()
+
+    if request.method == 'POST':
+        form = ProfilePic(request.POST, request.FILES)
+
+        if form.is_valid():
+            user_obj = form.save(commit=False)
+            user_obj.user = request.user
+            user_obj.save()
+
+            return HttpResponseRedirect(reverse('Login_App:profile'))
+
+    return render(request, "Login_App/pro_pic_add.html", context={'form': form})
+
+@login_required
+def change_profile_pic (request):
+    form = ProfilePic(instance=request.user.user_profile)
+    if request.method == "POST":
+        form = ProfilePic(request.POST, request.FILES, instance=request.user.user_profile)
+        if form.is_valid():
+            form.save()
+
+            return HttpResponseRedirect(reverse('Login_App:profile'))
+    return render(request, "Login_App/pro_pic_add.html", context={'form': form})
+
+
