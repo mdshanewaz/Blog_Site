@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block titele_block %} Home {% endblock %}
 
 {% block body_block %}
 
-    <h1>This is Blog Home</h1>
+    <h1>Post by user</h1>
 
     {% for blog in blogs %}
-        <h2 class="display-3">{{ blog.blog_title }}</h2>
+        <h3 class="">{{ blog.blog_title }}</h3>
+        <h6><i>{{ blog.publish_date }}</i></h6>
+        <div class="row">
+            <div class="col-sm-4">
+                <img class="img img-fluid" src="/media/{{ blog.blog_image }}" width="100%" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}">
+            </div>
+            <div class="col-sm-8">
+                <p>{{ blog.blog_content|range_filter|linebreaks }}</p>
+                <h6>Posted By : <a href="#">@{{ blog.author }}</a></h6>
+            </div>
+        </div> 
+        <hr> 
     {% endfor %}
 
 {% endblock %}

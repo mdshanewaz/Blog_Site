@@ -5,7 +5,7 @@
 
 {% block body_block %}
 <h2>Write Your Blog Here:</h2>
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
     {{ form|crispy }}
     {% csrf_token %}
     <button type="submit" class="btn btn-success">POST</button>

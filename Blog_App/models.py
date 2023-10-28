@@ -9,8 +9,11 @@ class BlogModel(models.Model):
     slug = models.SlugField(max_length=100, unique=True)
     blog_content = models.TextField(verbose_name="What is on your mide?")
     blog_image = models.ImageField(upload_to="blog_img", verbose_name="Image")
-    publis_date = models.DateTimeField(auto_now_add=True)
+    publish_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('-publish_date',)
 
     def __str__(self):
         return self.blog_title 
@@ -21,6 +24,9 @@ class CommentModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_comment")
     comment = models.TextField(max_length=500)
     comment_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-comment_date',)
 
     def __str__(self):
         return self.comment
