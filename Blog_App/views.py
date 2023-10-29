@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, TemplateView, DeleteView
 from Blog_App.models import BlogModel, CommentModel, LikeModel
+from Blog_App.forms import CommentForm
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,4 +33,23 @@ class BlogList(ListView):
     model = BlogModel
     template_name = 'Blog_App/blog_list.html'
     #queryset = BlogModel.objects.order_by('-publish_date')
+
+@login_required
+def blog_details(request, slug):
+    blog = BlogModel.objects.get(slug=slug)
+    comment_form = CommentForm()
+    
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit = False)
+            comment.user = request.user
+            comment.blog = blog
+            comment.save()
+            
+            return HttpResponseRedirect(reverse('Blog_App:blog_details', kwargs={'slug':slug}))
+
+    return render(request, 'Blog_App/blog_details.html', context={'blog' : blog, 'comment_form' : comment_form, })
+
+
 

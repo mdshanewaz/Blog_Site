@@ -15,7 +15,7 @@
                 <img class="img img-fluid" src="/media/{{ blog.blog_image }}" width="100%" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}">
             </div>
             <div class="col-sm-8">
-                <p>{{ blog.blog_content|range_filter|linebreaks }}</p>
+                <p>{{ blog.blog_content|range_filter|linebreaks }} <a href="{% url 'Blog_App:blog_details' slug=blog.slug %}">Read More</a></p>
                 <h6>Posted By : <a href="#">@{{ blog.author }}</a></h6>
             </div>
         </div> 
